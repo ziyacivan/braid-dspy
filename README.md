@@ -41,7 +41,7 @@ print(result.grd)  # View the reasoning diagram
 
 ## Documentation
 
-📚 **Full documentation is available on [Read the Docs](https://braid-dspy.readthedocs.io/)** (coming soon)
+📚 **Full documentation is available on [Read the Docs](https://braid-py.readthedocs.io/)** (coming soon)
 
 Local documentation:
 - [API Reference](docs/api.md)
