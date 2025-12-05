@@ -18,14 +18,14 @@ class TestGRDMetrics:
         """Test structural validity with valid GRD."""
         valid_grd = """flowchart TD
     Start[Start] --> End[End]"""
-        
+
         score = GRDMetrics.structural_validity(valid_grd)
         assert score == 1.0
 
     def test_structural_validity_invalid(self):
         """Test structural validity with invalid GRD."""
         invalid_grd = "This is not valid mermaid"
-        
+
         score = GRDMetrics.structural_validity(invalid_grd)
         assert score == 0.0
 
@@ -46,7 +46,7 @@ class TestGRDMetrics:
             start_nodes=["Start"],
             end_nodes=["End"],
         )
-        
+
         score = GRDMetrics.completeness(grd_structure)
         assert score > 0.0
         assert score <= 1.0
@@ -60,7 +60,7 @@ class TestGRDMetrics:
             start_nodes=[],
             end_nodes=["A"],
         )
-        
+
         score = GRDMetrics.completeness(grd_structure)
         assert score < 1.0
 
@@ -73,7 +73,7 @@ class TestGRDMetrics:
             start_nodes=["A"],
             end_nodes=[],
         )
-        
+
         score = GRDMetrics.completeness(grd_structure)
         assert score < 1.0
 
@@ -87,7 +87,7 @@ class TestGRDMetrics:
             start_nodes=["Node0"],
             end_nodes=["Node4"],
         )
-        
+
         score = GRDMetrics.completeness(grd_structure)
         assert score >= 0.8  # Should have high score with reasonable structure
 
@@ -101,7 +101,7 @@ class TestGRDMetrics:
             start_nodes=["Node0"],
             end_nodes=["Node24"],
         )
-        
+
         score = GRDMetrics.completeness(grd_structure)
         assert score < 1.0  # Should be penalized for too many nodes
 
@@ -122,7 +122,7 @@ class TestGRDMetrics:
             start_nodes=["Start"],
             end_nodes=["End"],
         )
-        
+
         score = GRDMetrics.execution_traceability(grd_structure)
         assert score > 0.0
         assert score <= 1.0
@@ -140,7 +140,7 @@ class TestGRDMetrics:
             start_nodes=[],
             end_nodes=[],
         )
-        
+
         score = GRDMetrics.execution_traceability(grd_structure)
         assert score == 0.0
 
@@ -152,7 +152,7 @@ class TestGRDMetrics:
             start_nodes=[],
             end_nodes=[],
         )
-        
+
         score = GRDMetrics.execution_traceability(grd_structure)
         assert score == 0.0
 
@@ -161,7 +161,7 @@ class TestGRDMetrics:
         valid_grd = """flowchart TD
     Start[Start] --> Step1[Step 1]
     Step1 --> End[End]"""
-        
+
         score = GRDMetrics.overall_quality(valid_grd)
         assert score > 0.0
         assert score <= 1.0
@@ -169,7 +169,7 @@ class TestGRDMetrics:
     def test_overall_quality_invalid(self):
         """Test overall quality with invalid GRD."""
         invalid_grd = "Not valid mermaid"
-        
+
         score = GRDMetrics.overall_quality(invalid_grd)
         assert score == 0.0
 
@@ -177,10 +177,10 @@ class TestGRDMetrics:
         """Test overall quality with pre-parsed structure."""
         valid_grd = """flowchart TD
     Start[Start] --> End[End]"""
-        
+
         parser = MermaidParser()
         grd_structure = parser.parse(valid_grd)
-        
+
         score = GRDMetrics.overall_quality(valid_grd, grd_structure)
         assert score > 0.0
         assert score <= 1.0
@@ -189,7 +189,7 @@ class TestGRDMetrics:
         """Test overall quality when parsing fails."""
         # Create a structure that will cause issues
         invalid_grd = "invalid"
-        
+
         score = GRDMetrics.overall_quality(invalid_grd)
         assert score == 0.0
 
@@ -205,7 +205,7 @@ class TestBraidOptimizer:
     def test_initialization_default(self):
         """Test optimizer initialization with default parameters."""
         optimizer = BraidOptimizer()
-        
+
         assert optimizer.base_optimizer is None
         assert optimizer.grd_quality_weight == 0.5
         assert optimizer.execution_quality_weight == 0.5
@@ -217,7 +217,7 @@ class TestBraidOptimizer:
             grd_quality_weight=0.7,
             execution_quality_weight=0.3,
         )
-        
+
         assert optimizer.grd_quality_weight == 0.7
         assert optimizer.execution_quality_weight == 0.3
 
@@ -227,7 +227,7 @@ class TestBraidOptimizer:
             {"problem": "Test problem 1", "answer": "Answer 1"},
             {"problem": "Test problem 2", "answer": "Answer 2"},
         ]
-        
+
         # Should return module unchanged (simple optimization)
         optimized = self.optimizer.optimize(self.module, trainset)
         assert optimized is not None
@@ -235,7 +235,7 @@ class TestBraidOptimizer:
     def test_optimize_with_empty_trainset(self):
         """Test optimization with empty trainset."""
         trainset = []
-        
+
         optimized = self.optimizer.optimize(self.module, trainset)
         assert optimized is not None
 
@@ -245,7 +245,7 @@ class TestBraidOptimizer:
             {"answer": "Answer 1"},
             {"problem": "Test problem"},
         ]
-        
+
         optimized = self.optimizer.optimize(self.module, trainset)
         assert optimized is not None
 
@@ -255,7 +255,7 @@ class TestBraidOptimizer:
         grd = """flowchart TD
     Start[Start] --> End[End]"""
         parsed_grd = parser.parse(grd)
-        
+
         result = BraidResult(
             problem="Test",
             grd=grd,
@@ -268,7 +268,7 @@ class TestBraidOptimizer:
             execution_trace=[],
             valid=True,
         )
-        
+
         score = self.optimizer._default_metric(result)
         assert score >= 0.0
         assert score <= 1.0
@@ -284,7 +284,7 @@ class TestBraidOptimizer:
             execution_trace=[],
             valid=True,
         )
-        
+
         score = self.optimizer._default_metric(result)
         assert score >= 0.0
 
@@ -294,14 +294,12 @@ class TestBraidOptimizer:
             problem="Test",
             grd="",
             parsed_grd=None,
-            reasoning_steps=[
-                {"step_id": f"Step{i}", "result": f"Result {i}"} for i in range(5)
-            ],
+            reasoning_steps=[{"step_id": f"Step{i}", "result": f"Result {i}"} for i in range(5)],
             answer="Answer",
             execution_trace=[],
             valid=True,
         )
-        
+
         score = self.optimizer._default_metric(result)
         assert score > 0.0
 
@@ -311,14 +309,12 @@ class TestBraidOptimizer:
             problem="Test",
             grd="",
             parsed_grd=None,
-            reasoning_steps=[
-                {"step_id": f"Step{i}", "result": f"Result {i}"} for i in range(20)
-            ],
+            reasoning_steps=[{"step_id": f"Step{i}", "result": f"Result {i}"} for i in range(20)],
             answer="Answer",
             execution_trace=[],
             valid=True,
         )
-        
+
         score = self.optimizer._default_metric(result)
         assert score >= 0.0
 
@@ -333,7 +329,7 @@ class TestBraidOptimizer:
             execution_trace=[],
             valid=True,
         )
-        
+
         score = self.optimizer._default_metric(result)
         assert score >= 0.0
 
@@ -348,7 +344,7 @@ class TestBraidOptimizer:
             execution_trace=[],
             valid=True,
         )
-        
+
         score = self.optimizer._default_metric(result, expected_answer="Expected Answer")
         assert score > 0.0
 
@@ -363,7 +359,7 @@ class TestBraidOptimizer:
             execution_trace=[],
             valid=True,
         )
-        
+
         score = self.optimizer._default_metric(result, expected_answer="42")
         assert score > 0.0
 
@@ -373,7 +369,7 @@ class TestBraidOptimizer:
             {"problem": "Test problem 1", "answer": "Answer 1"},
             {"problem": "Test problem 2", "answer": "Answer 2"},
         ]
-        
+
         # Note: Will fail without LM, but structure should work
         try:
             metrics = self.optimizer.evaluate(self.module, testset)
@@ -389,7 +385,7 @@ class TestBraidOptimizer:
     def test_evaluate_with_empty_testset(self):
         """Test evaluate method with empty testset."""
         testset = []
-        
+
         metrics = self.optimizer.evaluate(self.module, testset)
         assert metrics["average_score"] == 0.0
         assert metrics["total_examples"] == 0
@@ -401,7 +397,7 @@ class TestBraidOptimizer:
             {"answer": "Answer 1"},
             {"problem": "Test problem"},
         ]
-        
+
         try:
             metrics = self.optimizer.evaluate(self.module, testset)
             assert "valid_results" in metrics
@@ -411,11 +407,12 @@ class TestBraidOptimizer:
 
     def test_evaluate_with_custom_metric(self):
         """Test evaluate with custom metric function."""
+
         def custom_metric(result, expected):
             return 0.5
-        
+
         testset = [{"problem": "Test", "answer": "Answer"}]
-        
+
         try:
             metrics = self.optimizer.evaluate(self.module, testset, metric=custom_metric)
             assert "average_score" in metrics
@@ -425,11 +422,12 @@ class TestBraidOptimizer:
 
     def test_optimize_with_custom_metric(self):
         """Test optimize with custom metric function."""
+
         def custom_metric(result, expected):
             return 0.5
-        
+
         trainset = [{"problem": "Test", "answer": "Answer"}]
-        
+
         optimized = self.optimizer.optimize(self.module, trainset, metric=custom_metric)
         assert optimized is not None
 
@@ -437,10 +435,10 @@ class TestBraidOptimizer:
         """Test _optimize_planning with generator."""
         module = BraidReasoning(use_generator=True)
         trainset = [{"problem": "Test problem"}]
-        
+
         def dummy_metric(result, expected):
             return 0.5
-        
+
         # Should not crash even without LM
         try:
             optimized = self.optimizer._optimize_planning(module, trainset, dummy_metric)
@@ -453,10 +451,10 @@ class TestBraidOptimizer:
         """Test _optimize_planning without generator."""
         module = BraidReasoning(use_generator=False)
         trainset = [{"problem": "Test problem"}]
-        
+
         def dummy_metric(result, expected):
             return 0.5
-        
+
         # Should not crash even without LM
         try:
             optimized = self.optimizer._optimize_planning(module, trainset, dummy_metric)
@@ -468,10 +466,10 @@ class TestBraidOptimizer:
     def test_optimize_execution(self):
         """Test _optimize_execution."""
         trainset = [{"problem": "Test problem", "answer": "Answer"}]
-        
+
         def dummy_metric(result, expected):
             return 0.5
-        
+
         # Should not crash even without LM
         try:
             optimized = self.optimizer._optimize_execution(self.module, trainset, dummy_metric)
@@ -483,10 +481,10 @@ class TestBraidOptimizer:
     def test_optimize_execution_with_empty_steps(self):
         """Test _optimize_execution with result having no steps."""
         trainset = [{"problem": "Test problem", "answer": "Answer"}]
-        
+
         def dummy_metric(result, expected):
             return 0.5
-        
+
         # Should handle gracefully
         try:
             optimized = self.optimizer._optimize_execution(self.module, trainset, dummy_metric)
@@ -494,4 +492,3 @@ class TestBraidOptimizer:
         except Exception:
             # Expected without LM
             pass
-

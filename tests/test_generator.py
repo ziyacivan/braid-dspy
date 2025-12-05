@@ -132,15 +132,15 @@ flowchart TD
     def test_generator_without_dspy_predict(self):
         """Test generator initialization without DSPy Predict."""
         generator = GRDGenerator(use_dspy_predict=False)
-        
+
         assert generator.use_dspy_predict is False
-        assert not hasattr(generator, 'predictor') or generator.predictor is None
+        assert not hasattr(generator, "predictor") or generator.predictor is None
 
     def test_generate_with_empty_problem(self):
         """Test generate with empty problem."""
         generator = GRDGenerator()
         result = generator.generate(problem="")
-        
+
         # Should handle gracefully
         assert isinstance(result, dict)
         assert "grd" in result
@@ -173,7 +173,7 @@ flowchart TD
         """Test that build_prompt includes examples."""
         generator = GRDGenerator()
         prompt = generator._build_prompt("Test problem")
-        
+
         # Should include example problems
         assert any(example["problem"] in prompt for example in generator.examples)
 
@@ -181,7 +181,7 @@ flowchart TD
         """Test prompt format structure."""
         generator = GRDGenerator()
         prompt = generator._build_prompt("Test problem")
-        
+
         # Should contain key instructions
         assert "flowchart" in prompt.lower()
         assert "mermaid" in prompt.lower()
@@ -192,14 +192,14 @@ flowchart TD
         generator = GRDGenerator()
         template1 = generator.get_template("MATH")
         template2 = generator.get_template("math")
-        
+
         assert template1 == template2
 
     def test_get_template_all_types(self):
         """Test all available template types."""
         generator = GRDGenerator()
         types = ["math", "logic", "reasoning"]
-        
+
         for template_type in types:
             template = generator.get_template(template_type)
             assert template is not None
@@ -211,14 +211,14 @@ flowchart TD
         # Verify max_retries is used
         generator = GRDGenerator(max_retries=5)
         assert generator.max_retries == 5
-        
+
         # The actual retry logic is tested in generate method
         # which requires LM, but we can verify the structure
-        assert hasattr(generator, 'max_retries')
+        assert hasattr(generator, "max_retries")
 
     def test_generator_parser_integration(self):
         """Test generator has parser."""
         generator = GRDGenerator()
         assert generator.parser is not None
-        assert hasattr(generator.parser, 'validate')
-        assert hasattr(generator.parser, 'parse')
+        assert hasattr(generator.parser, "validate")
+        assert hasattr(generator.parser, "parse")
