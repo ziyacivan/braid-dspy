@@ -1,0 +1,14 @@
+/* Custom CSS for BRAID-DSPy documentation */
+
+/* Add custom styles here */
+.rst-content code {
+    background-color: #f5f5f5;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+.rst-content pre code {
+    background-color: transparent;
+    padding: 0;
+}
+

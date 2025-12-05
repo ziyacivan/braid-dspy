@@ -1,0 +1,74 @@
+# BRAID-DSPy Integration
+
+A Python library that integrates BRAID (Bounded Reasoning for Autonomous Inference and Decisions) architecture into the DSPy framework, enabling structured reasoning through Guided Reasoning Diagrams (GRD) in Mermaid format.
+
+## Overview
+
+BRAID-DSPy brings structured reasoning capabilities to DSPy by requiring models to first generate a machine-readable flowchart (GRD) before executing the solution. This separation of planning and execution significantly improves reliability and reduces hallucinations.
+
+## Key Features
+
+- **Guided Reasoning Diagrams (GRD)**: Generate Mermaid-format flowcharts that map solution steps
+- **Two-Phase Reasoning**: Separate planning and execution phases for better reliability
+- **DSPy Integration**: Seamlessly integrates with existing DSPy modules and optimizers
+- **Auditable Reasoning**: Visualize and debug reasoning processes through GRD diagrams
+- **Optimization Support**: BRAID-aware optimizers for improving GRD quality
+
+## Installation
+
+```bash
+pip install braid-dspy
+```
+
+## Quick Start
+
+```python
+import dspy
+from braid import BraidReasoning
+
+# Configure DSPy
+lm = dspy.OpenAI(model="gpt-4")
+dspy.configure(lm=lm)
+
+# Create a BRAID reasoning module
+braid = BraidReasoning()
+
+# Use it in your pipeline
+result = braid(problem="Solve: If a train travels 120 km in 2 hours, what is its speed?")
+print(result.answer)
+print(result.grd)  # View the reasoning diagram
+```
+
+## Documentation
+
+📚 **Full documentation is available on [Read the Docs](https://braid-dspy.readthedocs.io/)** (coming soon)
+
+Local documentation:
+- [API Reference](docs/api.md)
+- [Examples](docs/examples.md)
+- [Integration Guide](docs/integration.md)
+
+To build documentation locally:
+
+```bash
+pip install -e ".[docs]"
+cd docs
+make html
+```
+
+## Examples
+
+Check out the [examples](examples/) directory for:
+- Basic usage examples
+- GSM8K benchmark integration
+- Optimization workflows
+
+## License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+## References
+
+- [BRAID Blog Post](https://www.openserv.ai/blog/braid-is-the-missing-piece-in-ai-reasoning)
+- [DSPy Framework](https://github.com/stanfordnlp/dspy)
+
