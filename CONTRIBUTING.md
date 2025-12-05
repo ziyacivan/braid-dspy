@@ -47,12 +47,7 @@ Feature requests are welcome! Use the [Feature Request template](.github/ISSUE_T
    black braid/ tests/ examples/
    ```
 
-6. **Run type checking**:
-   ```bash
-   mypy braid/
-   ```
-
-7. **Update documentation** if needed
+6. **Update documentation** if needed
 
 8. **Commit your changes** with clear commit messages:
    ```bash
@@ -117,15 +112,6 @@ Check formatting without making changes:
 black --check braid/ tests/ examples/
 ```
 
-### Type Checking
-
-We use [mypy](https://mypy.readthedocs.io/) for static type checking.
-
-Run type checking:
-```bash
-mypy braid/
-```
-
 ### Pre-commit Hooks
 
 We recommend using pre-commit hooks to ensure code quality:
@@ -135,7 +121,7 @@ pip install pre-commit
 pre-commit install
 ```
 
-This will automatically run black, mypy, and tests before each commit.
+This will automatically run black and tests before each commit.
 
 ## Code Standards
 

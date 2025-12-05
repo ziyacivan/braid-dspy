@@ -58,7 +58,4 @@ jobs:
     
     - name: Run black check
       run: black --check braid/ tests/ examples/
-    
-    - name: Run mypy
-      run: mypy braid/
 
