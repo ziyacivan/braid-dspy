@@ -55,14 +55,9 @@ except Exception as e:
 
 # Example 3: Custom configuration
 print("\n=== Example 3: Custom Configuration ===")
-braid_custom = BraidReasoning(
-    use_generator=True,
-    max_execution_steps=15,
-    validate_grd=True
-)
+braid_custom = BraidReasoning(use_generator=True, max_execution_steps=15, validate_grd=True)
 
 print("BRAID module configured with:")
 print(f"  - Use generator: {braid_custom.use_generator}")
 print(f"  - Max execution steps: {braid_custom.max_execution_steps}")
 print(f"  - Validate GRD: {braid_custom.validate_grd}")
-

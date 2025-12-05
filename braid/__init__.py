@@ -11,7 +11,7 @@ from braid.signatures import (
     BraidPlanSignature,
     BraidExecuteSignature,
     BraidReasoningSignature,
-    BraidStepSignature
+    BraidStepSignature,
 )
 from braid.optimizer import BraidOptimizer, GRDMetrics
 from braid.parser import MermaidParser, GRDStructure, GRDNode, GRDEdge
@@ -34,4 +34,3 @@ __all__ = [
     "GRDEdge",
     "GRDGenerator",
 ]
-
