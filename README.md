@@ -8,7 +8,7 @@ BRAID-DSPy brings structured reasoning capabilities to DSPy by requiring models 
 
 ## Motivation
 
-This project began when I first encountered the BRAID architecture during one of Armağan Amcalar's live streams. The two-phase reasoning approach — planning first, then execution — and the idea of representing this planning in a visualizable format (Mermaid diagrams) immediately captured my interest.
+This project began when I first encountered the BRAID architecture during one of [Armağan Amcalar](https://github.com/dashersw)'s live streams. The two-phase reasoning approach — planning first, then execution — and the idea of representing this planning in a visualizable format (Mermaid diagrams) immediately captured my interest.
 
 After the stream, I delved into OpenServ's articles and technical details about BRAID. The approach of having the model first generate a flowchart (Guided Reasoning Diagram - GRD) and then execute the solution step-by-step according to this schema seemed like a significant step forward for reliability and transparency in AI systems. I realized that integrating this architecture with the DSPy framework would need to work seamlessly with existing DSPy modules and optimizers, which led me to develop this library to make that integration a reality.
 
