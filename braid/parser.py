@@ -157,28 +157,28 @@ class MermaidParser:
         """Clean and normalize Mermaid code."""
         # Remove markdown code blocks if present
         # Match opening ```mermaid or ```
-        if code.strip().startswith('```'):
+        if code.strip().startswith("```"):
             # Find the first newline after ```
-            lines = code.split('\n')
+            lines = code.split("\n")
             # Skip the first line if it starts with ```
-            if lines[0].strip().startswith('```'):
+            if lines[0].strip().startswith("```"):
                 lines = lines[1:]
             # Remove the last line if it's just ```
-            if lines and lines[-1].strip() == '```':
+            if lines and lines[-1].strip() == "```":
                 lines = lines[:-1]
-            code = '\n'.join(lines)
+            code = "\n".join(lines)
 
         # Remove comments (line comments)
         code = re.sub(r"%%.*", "", code, flags=re.MULTILINE)
 
         # Normalize multiple spaces to single space, but preserve newlines
         # Replace multiple spaces/tabs with single space, but keep newlines
-        lines = code.split('\n')
-        cleaned_lines = [re.sub(r'[ \t]+', ' ', line).strip() for line in lines]
-        code = '\n'.join(cleaned_lines)
-        
+        lines = code.split("\n")
+        cleaned_lines = [re.sub(r"[ \t]+", " ", line).strip() for line in lines]
+        code = "\n".join(cleaned_lines)
+
         # Remove empty lines
-        code = re.sub(r'\n\s*\n', '\n', code)
+        code = re.sub(r"\n\s*\n", "\n", code)
         code = code.strip()
 
         return code
@@ -229,11 +229,11 @@ class MermaidParser:
         # Pattern 2: node1 -->|label| node2 (labeled edge)
         # Pattern 3: node1 ==> node2 (thick edge)
         # Pattern 4: node1 ==|label|==> node2 (labeled thick edge)
-        
+
         # Node definitions can be: nodeId[label] or nodeId(label) etc.
         # We need to match edges that may have node definitions before/after the arrow
         # Pattern: nodeId[optional_label] -->|optional_label| nodeId[optional_label]
-        
+
         # First, try to match labeled edges: node1[label1] -->|edge_label| node2[label2]
         # or: node1 -->|edge_label| node2
         labeled_pattern = r"(\w+)(?:\[[^\]]*\]|\([^\)]*\)|\{[^\}]*\})?\s*--[->]\s*\|\s*(.*?)\s*\|\s*(\w+)(?:\[[^\]]*\]|\([^\)]*\)|\{[^\}]*\})?"
@@ -241,10 +241,12 @@ class MermaidParser:
             from_node = match.group(1)
             label = match.group(2).strip()
             to_node = match.group(3)
-            
+
             if from_node in node_ids and to_node in node_ids:
-                edges.append(GRDEdge(from_node=from_node, to_node=to_node, label=label, style="-->"))
-        
+                edges.append(
+                    GRDEdge(from_node=from_node, to_node=to_node, label=label, style="-->")
+                )
+
         # Then, try to match simple edges: node1[label1] --> node2[label2]
         # or: node1 --> node2
         simple_pattern = r"(\w+)(?:\[[^\]]*\]|\([^\)]*\)|\{[^\}]*\})?\s*(--[>]|==[>])\s*(\w+)(?:\[[^\]]*\]|\([^\)]*\)|\{[^\}]*\})?"
@@ -252,12 +254,10 @@ class MermaidParser:
             from_node = match.group(1)
             edge_style = match.group(2)
             to_node = match.group(3)
-            
+
             # Check if this edge was already captured as a labeled edge
-            already_captured = any(
-                e.from_node == from_node and e.to_node == to_node for e in edges
-            )
-            
+            already_captured = any(e.from_node == from_node and e.to_node == to_node for e in edges)
+
             if not already_captured and from_node in node_ids and to_node in node_ids:
                 edges.append(
                     GRDEdge(
